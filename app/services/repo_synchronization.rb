@@ -19,6 +19,7 @@ class RepoSynchronization
   def find_or_create_repo_with(repo_data)
     repo = Repo.find_or_create_by!(github_id: repo_data[:id]) do |new_repo|
       new_repo.full_github_name = repo_data[:full_name]
+      new_repo.private = repo_data[:private]
     end
 
     repo.update_changed_attributes(repo_data)

@@ -2,8 +2,25 @@ require 'spec_helper'
 
 describe RepoSynchronization do
   describe '#start' do
+    it 'saves repo privacy setting' do
+      api = double(
+        :github_api,
+        repos: [
+          { full_name: 'user/newrepo', id: 456, private: true }
+        ]
+      )
+      GithubApi.stub(new: api)
+      user = create(:user)
+      github_token = 'token'
+      synchronization = RepoSynchronization.new(user, github_token)
+
+      synchronization.start
+
+      expect(user.repos.first).to be_private
+    end
+
     it 'replaces existing repos' do
-      github_token = 'githubtoken'
+      github_token = 'token'
       membership = create(:membership)
       user = membership.user
 
