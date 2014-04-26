@@ -19,7 +19,8 @@ class RepoSynchronization
   def repo_attributes(attributes)
     attributes.slice(:private).merge(
       github_id: attributes[:id],
-      full_github_name: attributes[:full_name]
+      full_github_name: attributes[:full_name],
+      in_organization: attributes[:organization].present?
     )
   end
 end
